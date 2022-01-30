@@ -1,13 +1,16 @@
 import { Routes, Route } from 'react-router-dom';
-import { Home } from 'pages';
+import { Country, Home } from 'pages';
+import { Column, Header } from 'components';
 
 export const Router = () => {
   return (
-    <div className="app">
+    <Column width="1200px" margin="0 auto">
+      <Header />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="country/:_id" element={<Country />} />
         <Route path="*" element={<div>Page Not Found</div>} />
       </Routes>
-    </div>
+    </Column>
   );
 };

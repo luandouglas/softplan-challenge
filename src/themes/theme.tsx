@@ -1,12 +1,14 @@
 import { ThemeProvider } from 'styled-components';
 
 const fontSizes: any = [14, 16, 20, 96];
+
 fontSizes.body = fontSizes[0];
 fontSizes.bodyLarge = fontSizes[1];
 fontSizes.bodyExtraLarge = fontSizes[2];
 fontSizes.displayExtraLarge = fontSizes[3];
 
 const primary = '#EDF2F7';
+const tertiary = '#54DBBF';
 const secondary = '#F9B531';
 const font = '#343946';
 
@@ -15,6 +17,7 @@ const theme = {
   colors: {
     primary,
     secondary,
+    tertiary,
     font,
   },
 };
