@@ -1,10 +1,11 @@
-import { Theme } from './themes';
-import { Router } from './routes';
+import { GlobalStyles, Theme } from 'themes';
+import { Router } from 'routes';
 
 export const App = () => {
-    return (
-        <Theme>
-            <Router />
-        </Theme>
-    );
+  return (
+    <Theme>
+      <GlobalStyles />
+      <Router />
+    </Theme>
+  );
 };
