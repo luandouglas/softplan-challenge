@@ -5,11 +5,11 @@ import { Column, Header } from 'components';
 export const Router = () => {
   return (
     <Column width="1200px" margin="0 auto">
-      <Header />
+      {/* <Header /> */}
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="country/:_id" element={<Country />} />
-        <Route path="*" element={<div>Page Not Found</div>} />
+        <Route path="*" element={<Home />} />
       </Routes>
     </Column>
   );

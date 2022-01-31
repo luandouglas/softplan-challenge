@@ -1,81 +1,25 @@
-import { Container, List, Input, Filter, Text, Row, Button, FilterItemsProps } from 'components';
+import { Container, List, Input, Filter, Text, Row, Button, FilterItemsProps, ListItemProps } from 'components';
 import React from 'react';
 import { MdGridView, MdSplitscreen } from 'react-icons/md';
+import { getAllContries } from 'services';
 
 export const Home = () => {
-  const [filters, setFilters] = React.useState<Array<FilterItemsProps>>([
-    {
-      name: 'Southern Asia',
-    },
-    {
-      name: 'Northern Europe',
-    },
-    {
-      name: 'Southern Europe',
-    },
-    {
-      name: 'Northern Africa',
-    },
-    {
-      name: 'Polynesia',
-    },
-    {
-      name: 'Middle Africa',
-    },
-    {
-      name: 'Caribbean',
-    },
-    {
-      name: 'South America',
-    },
-    {
-      name: 'Western Asia',
-    },
-    {
-      name: 'Australia and New Zealand',
-    },
-    {
-      name: 'Western Europe',
-    },
-    {
-      name: 'Eastern Europe',
-    },
-    {
-      name: 'Central America',
-    },
-    {
-      name: 'Western Africa',
-    },
-    {
-      name: 'Northern America',
-    },
-    {
-      name: 'Southern Africa',
-    },
-    {
-      name: 'Eastern Africa',
-    },
-    {
-      name: 'South-Eastern Asia',
-    },
-    {
-      name: 'Eastern Asia',
-    },
-    {
-      name: 'Melanesia',
-    },
-    {
-      name: 'Micronesia',
-    },
-    {
-      name: 'Central Asia',
-    },
-  ]);
+  const [filters, setFilters] = React.useState<Array<FilterItemsProps>>([]);
+  const [countries, setCountries] = React.useState([]);
   const [sortBy, setSortBy] = React.useState<string>('Alphabetic');
   const [gridView, setGridView] = React.useState<string>('gridView');
 
   const removeSubRegion = (index: number) => {
     setFilters(filters.filter((e, i) => i !== index));
+  };
+  React.useEffect(() => {
+    populate();
+  }, []);
+  const populate = () => {
+    getAllContries().then((res: any) => {
+      console.log(res);
+      setCountries(res.Country);
+    });
   };
 
   return (
@@ -95,21 +39,21 @@ export const Home = () => {
                 onClick={() => setGridView('gridView')}
                 size="16px"
                 style={{ cursor: 'pointer' }}
-                color={gridView === 'gridView' ? 'tertiary' : '#343946'}
+                color={gridView === 'gridView' ? '#54DBBF' : '#343946'}
               />
               <MdSplitscreen
                 onClick={() => setGridView('splitScreen')}
                 size="16px"
                 style={{ cursor: 'pointer' }}
-                color={gridView === 'splitScreen' ? 'tertiary' : '#343946'}
+                color={gridView === 'splitScreen' ? '#54DBBF' : '#343946'}
               />
             </Row>
             <Row>
               <Text fontSize="body" pr="5px" fontWeight="bold">
                 Sort:{' '}
               </Text>
-              {['Alphabetic', 'Population', 'Area'].map((e) => (
-                <Button onClick={() => setSortBy(e)}>
+              {['Alphabetic', 'Population', 'Area'].map((e, index) => (
+                <Button key={index} onClick={() => setSortBy(e)}>
                   <Text
                     fontWeight={e === sortBy ? 'bold' : 'medium'}
                     color={e === sortBy ? 'tertiary' : '#343946'}
@@ -133,54 +77,7 @@ export const Home = () => {
         </Container>
       </Row>
       <Filter filters={filters} onClickRemove={(index) => removeSubRegion(index)} />
-      <List
-        items={[
-          {
-            _id: '661',
-            name: 'Brazil',
-            capital: 'Brasília',
-            nativeName: 'Brasil',
-            topLevelDomains: [
-              {
-                name: '.br',
-              },
-            ],
-          },
-          {
-            _id: '661',
-            name: 'Brazil',
-            capital: 'Brasília',
-            nativeName: 'Brasil',
-            topLevelDomains: [
-              {
-                name: '.br',
-              },
-            ],
-          },
-          {
-            _id: '661',
-            name: 'Brazil',
-            capital: 'Brasília',
-            nativeName: 'Brasil',
-            topLevelDomains: [
-              {
-                name: '.br',
-              },
-            ],
-          },
-          {
-            _id: '661',
-            name: 'Brazil',
-            capital: 'Brasília',
-            nativeName: 'Brasil',
-            topLevelDomains: [
-              {
-                name: '.br',
-              },
-            ],
-          },
-        ]}
-      />
+      <List items={countries} />
     </Container>
   );
 };
