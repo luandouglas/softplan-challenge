@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import { layout, LayoutProps, space, SpaceProps } from 'styled-system';
+import { alignItems, AlignItemsProps, layout, LayoutProps, space, SpaceProps } from 'styled-system';
 
-type RowProps = LayoutProps & SpaceProps;
+type RowProps = LayoutProps & SpaceProps & AlignItemsProps;
 
 export const Row = styled.div<RowProps>`
   display: flex;
@@ -9,4 +9,5 @@ export const Row = styled.div<RowProps>`
   align-items: center;
   ${layout}
   ${space}
+  ${alignItems}
 `;

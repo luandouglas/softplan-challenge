@@ -25,12 +25,16 @@ export const GET_CONTRY_DETAIL = (id: string) => `
 {
     Country(_id: "${id}") {
         _id 
-        name 
+        name
         capital
         nativeName 
         area
         population
-        topLevelDomains { name }     
+        location { latitude longitude }
+        borders { name location { latitude, longitude  } }
+        distanceToOtherCountries(first: 5) { countryName distanceInKm }
+        topLevelDomains { name }
+        subregion { name region { name } }
     }
 }
 

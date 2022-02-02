@@ -8,7 +8,10 @@ const INITIAL_STATE = {
     nativeName: "",
     area: "",
     population: 0,
-    topLevelDomains: [{ name: "" }]
+    location: { latitude: 0, longitude: 0 },
+    distanceToOtherCountries: [],
+    topLevelDomains: [{ name: "" }],
+    subregion: {}
 }
 export const slice = createSlice({
     name: 'country',

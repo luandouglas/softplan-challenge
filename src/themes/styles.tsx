@@ -11,6 +11,10 @@ export const GlobalStyles = createGlobalStyle<{ theme: ThemeType }>`
         box-sizing: border-box;
         font-family: 'Raleway', sans-serif;
     }
+    .leaflet-container {
+        width: 100%;
+        height: 500px;
+    }
     body {
         background-color: ${({ theme }) => theme.colors.primary};
     }

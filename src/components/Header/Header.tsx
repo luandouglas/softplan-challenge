@@ -1,5 +1,4 @@
 import { Row, Text, ItemsHeader, Button, StyledLink } from 'components';
-import { Link } from 'react-router-dom';
 
 export const Header: React.FC = () => {
   return (
