@@ -1,5 +1,4 @@
 export * from './Text';
-export * from './Input';
 export * from './Button';
 export * from './Row';
 export * from './Column';
@@ -12,3 +11,6 @@ export * from './Container';
 export * from './StyledLink';
 export * from './Filter';
 export * from './Content';
+export * from './SearchInput';
+export * from './Input';
+export * from './Separator';

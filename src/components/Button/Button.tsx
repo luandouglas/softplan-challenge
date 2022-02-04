@@ -1,7 +1,28 @@
 import styled from 'styled-components';
-import { border, BorderProps, color, ColorProps, flex, FlexProps } from 'styled-system';
+import {
+  AlignItemsProps,
+  alignSelf,
+  border,
+  BorderProps,
+  color,
+  ColorProps,
+  flex,
+  FlexProps,
+  justifyContent,
+  JustifyContentProps,
+  margin,
+  MarginProps,
+  padding,
+  PaddingProps,
+} from 'styled-system';
 
-type ButtonProps = BorderProps & FlexProps & ColorProps;
+type ButtonProps = BorderProps &
+  FlexProps &
+  ColorProps &
+  PaddingProps &
+  AlignItemsProps &
+  MarginProps &
+  JustifyContentProps;
 
 export const Button = styled.button<ButtonProps>`
   background-color: transparent;
@@ -9,4 +30,8 @@ export const Button = styled.button<ButtonProps>`
   ${border}
   ${flex}
   ${color}
+  ${padding}
+  ${margin}
+  ${alignSelf}
+  ${justifyContent}
 `;

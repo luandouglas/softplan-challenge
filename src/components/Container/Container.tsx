@@ -1,5 +1,7 @@
 import styled from 'styled-components';
 import {
+  alignItems,
+  AlignItemsProps,
   border,
   BorderProps,
   borderRadius,
@@ -16,7 +18,14 @@ import {
   SpaceProps,
 } from 'styled-system';
 
-type ContainerProps = FlexProps & SizeProps & BorderRadiusProps & BorderProps & ColorProps & LayoutProps & SpaceProps;
+type ContainerProps = FlexProps &
+  SizeProps &
+  BorderRadiusProps &
+  BorderProps &
+  ColorProps &
+  LayoutProps &
+  SpaceProps &
+  AlignItemsProps;
 
 export const Container = styled.div<ContainerProps>`
   ${flex}
@@ -26,4 +35,5 @@ export const Container = styled.div<ContainerProps>`
   ${color}
   ${space}
   ${layout}
+  ${alignItems}
 `;

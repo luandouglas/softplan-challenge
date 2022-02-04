@@ -1,7 +1,8 @@
 import { LinkProps, Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { flex, FlexProps } from 'styled-system';
 
-type StyledProps = LinkProps;
+type StyledProps = LinkProps & FlexProps;
 
 const Styled = styled(Link)`
   text-decoration: none;
@@ -13,6 +14,7 @@ const Styled = styled(Link)`
   &:active {
     text-decoration: none;
   }
+  ${flex}
 `;
 
 export const StyledLink: React.FC<StyledProps> = (props) => <Styled {...props} />;

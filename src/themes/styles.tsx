@@ -2,14 +2,14 @@ import { createGlobalStyle } from 'styled-components';
 import { ThemeType } from 'themes';
 
 export const GlobalStyles = createGlobalStyle<{ theme: ThemeType }>`
-    @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&display=swap');
     
     * {
         margin: 0;
         padding: 0;
         border: 0;
         box-sizing: border-box;
-        font-family: 'Raleway', sans-serif;
+        font-family: 'Rubik', sans-serif;
     }
     .leaflet-container {
         width: 100%;

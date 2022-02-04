@@ -7,7 +7,7 @@ type ListProps = {
 
 export const List: React.FC<ListProps> = ({ items }) => {
   return (
-    <Grid gridTemplateColumns="repeat(3,400px)" gridGap="20px">
+    <Grid gridTemplateColumns="repeat(3, 400px)" gridGap="24px">
       {items.map((item, index) => (
         <ListItem {...item} key={index} />
       ))}

@@ -10,14 +10,17 @@ import {
   LayoutProps,
   space,
   SpaceProps,
+  textStyle,
+  TextStyleProps,
   typography,
   TypographyProps,
 } from 'styled-system';
 
-type TextProps = TypographyProps & SpaceProps & FlexProps & BorderProps & ColorProps & LayoutProps;
+type TextProps = TypographyProps & SpaceProps & FlexProps & BorderProps & ColorProps & LayoutProps & TextStyleProps;
 
 export const Text = styled.p<TextProps>`
   font-family: 14px;
+
   color: #343946;
   ${typography}
   ${space}
@@ -25,4 +28,5 @@ export const Text = styled.p<TextProps>`
   ${border}
   ${color}
   ${layout}
+  ${textStyle}
 `;
