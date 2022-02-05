@@ -1,11 +1,43 @@
 import { Column, Container, Input, Row, Text, Separator, Button } from 'components';
-import { MdRemove } from 'react-icons/md';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { countrySelector, setCountry } from 'redux/countrySlice';
+import { useNavigate, useParams } from 'react-router';
+import { addCountry, countriesSelector, delCountry } from 'redux/CountriesSlice';
+import { Country, countrySelector, setCountry } from 'redux/countrySlice';
 
 export const CountryEdit: React.FC = () => {
+  const params = useParams();
   const country = useSelector(countrySelector);
+  const countries = useSelector(countriesSelector);
   const dispatch = useDispatch();
+
+  const navigate = useNavigate();
+  const [isSync, setIsSync] = React.useState<boolean>(true);
+
+  React.useEffect(() => {
+    findCountryInRedux(String(params._id));
+  }, []);
+
+  const findCountryInRedux = (_id: string) => {
+    countries.map((e: any) => {
+      if (e.country._id == Number(_id)) {
+        dispatch(setCountry({ ...e.country }));
+        setIsSync(false);
+      }
+    });
+  };
+
+  const syncData = () => {
+    if (!isSync) {
+      const index = countries.findIndex((e: any) => e.country._id === country._id);
+
+      dispatch(delCountry(index));
+      dispatch(addCountry(country));
+    } else {
+      dispatch(addCountry(country));
+    }
+    navigate('/');
+  };
 
   return (
     <Container width="80%">
@@ -42,13 +74,7 @@ export const CountryEdit: React.FC = () => {
             />
           ))}
         </Column>
-        <Column width="60%">
-          <Row alignSelf="flex-end">
-            <Button backgroundColor="tertiary" p="10px" borderRadius="7px">
-              <Text fontWeight="600">Adicionar</Text>
-            </Button>
-          </Row>
-        </Column>
+
         <Row width="60%">
           <Column width="50%">
             <Text fontWeight="600">Alpha 2</Text>
@@ -62,11 +88,14 @@ export const CountryEdit: React.FC = () => {
         <Row width="60%">
           <Column width="50%">
             <Text fontWeight="600">Area</Text>
-            <Input value={country.area} onChange={(e) => dispatch(setCountry({ area: e.target.value }))} />
+            <Input value={country.area} onChange={(e) => dispatch(setCountry({ area: Number(e.target.value) }))} />
           </Column>
           <Column width="50%">
             <Text fontWeight="600">Population</Text>
-            <Input value={country.population} onChange={(e) => dispatch(setCountry({ population: e.target.value }))} />
+            <Input
+              value={country.population}
+              onChange={(e) => dispatch(setCountry({ population: Number(e.target.value) }))}
+            />
           </Column>
         </Row>
         <Column width="60%">
@@ -80,14 +109,18 @@ export const CountryEdit: React.FC = () => {
             <Text fontWeight="600">Latitude</Text>
             <Input
               value={country.location.latitude}
-              onChange={(e) => dispatch(setCountry({ location: { ...country.location, latitude: e.target.value } }))}
+              onChange={(e) =>
+                dispatch(setCountry({ location: { ...country.location, latitude: Number(e.target.value) } }))
+              }
             />
           </Column>
           <Column width="50%">
             <Text fontWeight="600">Longitude</Text>
             <Input
               value={country.location.longitude}
-              onChange={(e) => dispatch(setCountry({ location: { ...country.location, longitude: e.target.value } }))}
+              onChange={(e) =>
+                dispatch(setCountry({ location: { ...country.location, longitude: Number(e.target.value) } }))
+              }
             />
           </Column>
         </Row>
@@ -97,6 +130,7 @@ export const CountryEdit: React.FC = () => {
         <Text fontWeight="600" pt="10px">
           Borders
         </Text>
+
         <Column width="60%">
           {country.borders.map((e, index) => (
             <Row justifyContent="space-evenly">
@@ -125,7 +159,7 @@ export const CountryEdit: React.FC = () => {
                         borders: country.borders.map((element, index2) =>
                           index === index2
                             ? Object.assign({}, element, {
-                                location: { ...element.location, latitude: e.target.value },
+                                location: { ...element.location, latitude: Number(e.target.value) },
                               })
                             : element
                         ),
@@ -144,7 +178,7 @@ export const CountryEdit: React.FC = () => {
                         borders: country.borders.map((element, index2) =>
                           index === index2
                             ? Object.assign({}, element, {
-                                location: { ...element.location, longitude: e.target.value },
+                                location: { ...element.location, longitude: Number(e.target.value) },
                               })
                             : element
                         ),
@@ -153,14 +187,15 @@ export const CountryEdit: React.FC = () => {
                   }}
                 />
               </Column>
-              <Column pl="5px" pr="0" mt="25px">
-                <Button p="10px" justifyContent="flex-end" backgroundColor="rgba(255,0,0,0.87)" borderRadius="7px">
-                  <MdRemove color="#FFF" />
-                </Button>
-              </Column>
             </Row>
           ))}
         </Column>
+        <Column width="60%">
+          <Separator />
+        </Column>
+        <Text fontWeight="600" pt="10px">
+          Distance to other Countries
+        </Text>
         <Column width="60%">
           {country.distanceToOtherCountries.map((e, index) => (
             <Row justifyContent="space-evenly">
@@ -171,8 +206,8 @@ export const CountryEdit: React.FC = () => {
                   onChange={(e) => {
                     dispatch(
                       setCountry({
-                        borders: country.borders.map((element, index2) =>
-                          index === index2 ? Object.assign({}, element, { countryName: e.target.value }) : element
+                        distanceToOtherCountries: country.distanceToOtherCountries.map((element, index2) =>
+                          index === index2 ? Object.assign({}, element, { name: Number(e.target.value) }) : element
                         ),
                       })
                     );
@@ -180,30 +215,27 @@ export const CountryEdit: React.FC = () => {
                 />
               </Column>
               <Column px="5px" width="50%">
-                <Text fontWeight="600">Latitude</Text>
+                <Text fontWeight="600">Distance</Text>
                 <Input
                   value={e.distanceInKm}
                   onChange={(e) => {
                     dispatch(
                       setCountry({
-                        borders: country.borders.map((element, index2) =>
-                          index === index2 ? Object.assign({}, element, { distanceInKm: e.target.value }) : element
+                        distanceToOtherCountries: country.distanceToOtherCountries.map((element, index2) =>
+                          index === index2
+                            ? Object.assign({}, element, { distanceInKm: Number(e.target.value) })
+                            : element
                         ),
                       })
                     );
                   }}
                 />
               </Column>
-              <Column pl="5px" pr="0" mt="25px">
-                <Button p="10px" justifyContent="flex-end" backgroundColor="rgba(255,0,0,0.87)" borderRadius="7px">
-                  <MdRemove color="#FFF" />
-                </Button>
-              </Column>
             </Row>
           ))}
         </Column>
         <Row width="60%" justifyContent="flex-end" pr="10px">
-          <Button backgroundColor="tertiary" mt="30px" p="10px" borderRadius="7px">
+          <Button backgroundColor="tertiary" mt="30px" p="10px" borderRadius="7px" onClick={syncData}>
             <Text fontWeight="600">Salvar</Text>
           </Button>
         </Row>

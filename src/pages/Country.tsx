@@ -2,12 +2,24 @@ import { Button, Column, Container, Image, Row, StyledLink, Text } from 'compone
 import React from 'react';
 import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
 import * as L from 'leaflet';
-import { useSelector } from 'react-redux';
-import { countrySelector } from 'redux/countrySlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { countrySelector, setCountry } from 'redux/countrySlice';
 import { transformNumber } from 'utils';
 import { useParams } from 'react-router';
+import { countriesSelector } from 'redux/CountriesSlice';
+
+type Borders = {
+  name: string;
+  location: {
+    latitude: number;
+    longitude: number;
+  };
+};
 
 export const Country: React.FC = () => {
+  const params = useParams();
+  const countries = useSelector(countriesSelector);
+  const dispatch = useDispatch();
   const country = useSelector(countrySelector);
   const { _id } = useParams();
   const LeafIconGreen = L.Icon.extend({
@@ -21,8 +33,26 @@ export const Country: React.FC = () => {
       iconUrl: 'https://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|abcdef&chf=a,s,ee00FFFF',
     },
   });
+
   const greenIcon = new LeafIconGreen();
   const blueIcon = new LeafIconBlue();
+
+  React.useEffect(() => {
+    findCountryInRedux(String(params._id));
+  }, []);
+
+  const findCountryInRedux = (_id: string) => {
+    countries.map((e: any) => {
+      if (e.country._id == Number(_id)) {
+        dispatch(setCountry({ ...e.country }));
+      }
+    });
+  };
+  const getDistanceToOtherCountry = (border: Borders) => {
+    return (
+      `${country.distanceToOtherCountries.find((e) => e.countryName === border.name)?.distanceInKm.toFixed(2)} km` || 0
+    );
+  };
   return (
     <Container pt="20px" width="80%">
       <Row>
@@ -71,7 +101,7 @@ export const Country: React.FC = () => {
             </Column>
             <Column>
               <Text fontSize="bodyExtraLarge" fontWeight="bold">
-                Domínio de topo
+                Top level domains
               </Text>
               <Row>
                 {country.topLevelDomains.map((e) => (
@@ -85,7 +115,8 @@ export const Country: React.FC = () => {
         </Column>
       </Row>
       <MapContainer
-        center={{ lat: country.location.latitude, lng: country.location.longitude }}
+        bounds={country.borders.map((e) => [e.location.latitude, e.location.longitude])}
+        // center={{ lat: country.location.latitude, lng: country.location.longitude }}
         zoom={4}
         scrollWheelZoom={true}
       >
@@ -107,6 +138,7 @@ export const Country: React.FC = () => {
               <Text fontSize="bodyLarge" fontWeight="bold">
                 {e.name}
               </Text>
+              Distance: {getDistanceToOtherCountry(e)}
             </Popup>
           </Marker>
         ))}

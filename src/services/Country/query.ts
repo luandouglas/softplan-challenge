@@ -54,7 +54,7 @@ export const GET_CONTRY_DETAIL = (id: string) => `
         population
         location { latitude longitude }
         borders(first: 5) { name location { latitude, longitude  } }
-        distanceToOtherCountries(first: 5) { countryName distanceInKm }
+        distanceToOtherCountries(first: 10) { countryName distanceInKm }
         topLevelDomains { name }
         subregion { name region { name } }
     }

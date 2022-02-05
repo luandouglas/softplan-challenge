@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { RootState } from './store'
 
-type Country = {
+export type Country = {
     _id: number;
     name: string;
     capital: string;
